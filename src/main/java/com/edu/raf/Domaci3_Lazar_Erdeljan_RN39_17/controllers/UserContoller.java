@@ -17,7 +17,7 @@ public class UserContoller{
     private UserService userService;
 
     @GetMapping("/all")
-    public List<UserDto> getAllUsers(){
+    public List<User> getAllUsers(){
         return this.userService.getAllUsers();
     }
 
@@ -44,8 +44,8 @@ public class UserContoller{
     }
 
     @GetMapping
-    public ResponseEntity<UserDto> getUserById(@RequestParam("userId") Long id){
-        UserDto user = this.userService.getUserById(id);
+    public ResponseEntity<User> getUserById(@RequestParam("userId") Long id){
+        User user = this.userService.getUserById(id);
         if(user != null){
             return ResponseEntity.ok(user);
         }

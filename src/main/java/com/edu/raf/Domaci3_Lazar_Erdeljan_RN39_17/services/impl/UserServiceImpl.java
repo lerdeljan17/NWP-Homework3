@@ -1,7 +1,6 @@
 package com.edu.raf.Domaci3_Lazar_Erdeljan_RN39_17.services.impl;
 
 import com.edu.raf.Domaci3_Lazar_Erdeljan_RN39_17.model.User;
-import com.edu.raf.Domaci3_Lazar_Erdeljan_RN39_17.model.dtoModel.UserDto;
 import com.edu.raf.Domaci3_Lazar_Erdeljan_RN39_17.repositories.UserRepository;
 import com.edu.raf.Domaci3_Lazar_Erdeljan_RN39_17.services.UserService;
 import lombok.AllArgsConstructor;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,36 +20,17 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public List<UserDto> getAllUsers() {
+    public List<User> getAllUsers() {
         List<User> users = this.userRepository.findAll();
-        return users.stream()
-                .map(user ->{
-                    UserDto userDto = UserDto.builder().
-                            id(user.getId())
-                            .ime(user.getFirstname())
-                            .prezime(user.getLastname())
-                            .tipKorisnika(user.getUserType().getName())
-                            .build();
-                    if(user.getGroup() != null)
-                        userDto.setImeGrupe(user.getGroup().getName());
-                    return userDto;
-                })
-                .collect(Collectors.toList());
+        return users;
     }
 
     @Override
-    public UserDto getUserById(Long id) {
+    public User getUserById(Long id) {
         Optional<User> optionalUser = this.userRepository.findById(id);
         if(optionalUser.isPresent()){
             User user = optionalUser.get();
-            UserDto userDto = UserDto.builder().id(user.getId())
-                    .ime(user.getFirstname())
-                    .prezime(user.getLastname())
-                    .tipKorisnika(user.getUserType().getName())
-                    .build();
-            if(user.getGroup() != null)
-                userDto.setImeGrupe(user.getGroup().getName());
-            return userDto;
+            return user;
         }
         return null;
     }
