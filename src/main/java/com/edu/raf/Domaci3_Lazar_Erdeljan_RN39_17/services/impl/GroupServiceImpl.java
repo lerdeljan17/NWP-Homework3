@@ -31,7 +31,7 @@ public class GroupServiceImpl implements GroupService {
                 .map(group -> {
                     List<UserDto> userDtoList = new ArrayList<>();
                     for(User u : group.getUsers()){
-                        userDtoList.add(u.userToDto());
+                        userDtoList.add(User.userToDto(u));
                     }
                     GroupDto groupDto = GroupDto.builder().
                             id(group.getId())
@@ -47,16 +47,7 @@ public class GroupServiceImpl implements GroupService {
         Optional<Group> optionalGroup = this.groupRepository.findById(id);
         if(optionalGroup.isPresent()){
             Group group = optionalGroup.get();
-            GroupDto groupDto = GroupDto.builder().id(group.getId())
-                    .name(group.getName())
-                    .build();
-            List<UserDto> userDtoList = new ArrayList<>();
-            for(User u : group.getUsers()){
-                userDtoList.add(u.userToDto());
-            }
-            if(!userDtoList.isEmpty())
-                groupDto.setUsers(userDtoList);
-            return groupDto;
+            return Group.groupToDto(group);
         }
         return null;
     }

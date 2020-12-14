@@ -32,13 +32,13 @@ public class User {
     @JoinColumn(name = "GROUP_ID", referencedColumnName = "ID")
     private Group group;
 
-    public UserDto userToDto(){
+    public static UserDto userToDto(User user){
         UserDto userDto = new UserDto();
-        userDto.setId(this.id);
-        userDto.setIme(this.firstname);
-        userDto.setPrezime(this.getLastname());
-        userDto.setTipKorisnika(this.userType.getName());
-        if(this.group != null) userDto.setImeGrupe(this.group.getName());
+        userDto.setId(user.id);
+        userDto.setIme(user.firstname);
+        userDto.setPrezime(user.getLastname());
+        userDto.setTipKorisnika(user.userType.getName());
+        if(user.group != null) userDto.setImeGrupe(user.group.getName());
         return userDto;
     }
 

@@ -32,14 +32,14 @@ public class Group {
     @ToString.Exclude
     private Collection<User> users;
 
-    public GroupDto groupToDto(){
+    public static GroupDto groupToDto(Group group){
         GroupDto groupDto = new GroupDto();
-        groupDto.setName(this.name);
-        groupDto.setId(this.id);
+        groupDto.setName(group.name);
+        groupDto.setId(group.id);
         List<UserDto> userDtos = new ArrayList<>();
-        if(users != null && !users.isEmpty()){
-        for(User u : this.getUsers()){
-            userDtos.add(u.userToDto());
+        if(group.getUsers() != null && !group.getUsers().isEmpty()){
+        for(User u : group.getUsers()){
+            userDtos.add(User.userToDto(u));
         }}
         if(!userDtos.isEmpty())
             groupDto.setUsers(userDtos);
