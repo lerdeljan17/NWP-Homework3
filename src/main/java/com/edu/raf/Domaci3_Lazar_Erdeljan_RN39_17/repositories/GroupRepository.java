@@ -11,4 +11,5 @@ public interface GroupRepository extends JpaRepository<Group,Long> {
     @Transactional
     @Query("update Group g set g.name = ?1 where g.id = ?2")
     void setGroupInfoByID(String name, Long userId);
+
 }

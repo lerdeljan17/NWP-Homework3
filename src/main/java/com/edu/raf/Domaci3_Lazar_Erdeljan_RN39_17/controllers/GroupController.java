@@ -52,4 +52,20 @@ public class GroupController {
         return ResponseEntity.notFound().build();
     }
 
+    @PutMapping("/addUser")
+    public ResponseEntity<?> addUser(@RequestParam("groupId") Long groupId,@RequestParam("userId") Long userId){
+        if(this.groupService.addUser(groupId,userId)){
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/removeUser")
+    public ResponseEntity<?> removeUser(@RequestParam("groupId") Long groupId,@RequestParam("userId") Long userId){
+        if(this.groupService.removeUser(groupId,userId)){
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
 }

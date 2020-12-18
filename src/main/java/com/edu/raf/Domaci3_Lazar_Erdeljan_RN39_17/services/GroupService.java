@@ -17,4 +17,7 @@ public interface GroupService {
 
     public Group updateGroup(Group newGroup, Long id);
 
+    public boolean addUser(Long groupId,Long userId);
+
+    public boolean removeUser(Long groupId,Long userId);
 }

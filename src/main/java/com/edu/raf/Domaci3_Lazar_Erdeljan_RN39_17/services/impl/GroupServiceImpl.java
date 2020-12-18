@@ -4,6 +4,7 @@ import com.edu.raf.Domaci3_Lazar_Erdeljan_RN39_17.model.Group;
 import com.edu.raf.Domaci3_Lazar_Erdeljan_RN39_17.model.User;
 import com.edu.raf.Domaci3_Lazar_Erdeljan_RN39_17.model.dtoModel.GroupDto;
 import com.edu.raf.Domaci3_Lazar_Erdeljan_RN39_17.repositories.GroupRepository;
+import com.edu.raf.Domaci3_Lazar_Erdeljan_RN39_17.repositories.UserRepository;
 import com.edu.raf.Domaci3_Lazar_Erdeljan_RN39_17.services.GroupService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,9 @@ public class GroupServiceImpl implements GroupService {
 
     @Autowired
     private GroupRepository groupRepository;
+    @Autowired
+    private UserRepository userRepository;
+
 
     @Override
     public List<GroupDto> getAllGroups() {
@@ -68,6 +72,44 @@ public class GroupServiceImpl implements GroupService {
             return newGroup;
         }
         return null;
+    }
+
+    @Override
+    public boolean addUser(Long groupId, Long userId) {
+        Optional<Group> optionalGroup = groupRepository.findById(groupId);
+      if( optionalGroup.isPresent()){
+          Group group = optionalGroup.get();
+          Optional<User> optionalUser = userRepository.findById(userId);
+          if( optionalUser.isPresent()){
+              User user = optionalUser.get();
+              group.getUsers().add(user);
+              user.setGroup(group);
+              groupRepository.flush();
+              userRepository.flush();
+              return true;
+          }
+
+          }
+      return false;
+    }
+
+    @Override
+    public boolean removeUser(Long groupId, Long userId) {
+        Optional<Group> optionalGroup = groupRepository.findById(groupId);
+        if( optionalGroup.isPresent()){
+            Group group = optionalGroup.get();
+            Optional<User> optionalUser = userRepository.findById(userId);
+            if( optionalUser.isPresent()){
+                User user = optionalUser.get();
+                group.getUsers().remove(user);
+                user.setGroup(null);
+                groupRepository.flush();
+                userRepository.flush();
+                return true;
+            }
+
+        }
+        return false;
     }
 
 }
